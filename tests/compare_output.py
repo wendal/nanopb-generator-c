@@ -97,8 +97,8 @@ def main():
 def _run_test(proto_path, proto_dir, proto_name, proto_base, c_gen, py_gen, work_dir):
     pb_file = os.path.join(work_dir, proto_base + '.pb')
 
-    # --- Step 1: compile .proto → .pb ---
-    print(f"[1] Compiling {proto_name} → {proto_base}.pb")
+    # --- Step 1: compile .proto -> .pb ---
+    print(f"[1] Compiling {proto_name} -> {proto_base}.pb")
     run([
         sys.executable, '-m', 'grpc_tools.protoc',
         f'-I{proto_dir}',
