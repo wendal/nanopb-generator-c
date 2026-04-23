@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+package enums;
+
+enum Status {
+    STATUS_UNKNOWN  = 0;
+    STATUS_OK       = 1;
+    STATUS_ERROR    = 2;
+    STATUS_PENDING  = 3;
+}
+
+message StatusMessage {
+    required Status status  = 1;
+    optional int32  code    = 2;
+    optional string reason  = 3;
+}

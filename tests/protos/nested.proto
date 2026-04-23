@@ -1,0 +1,14 @@
+syntax = "proto2";
+
+package nested;
+
+message Inner {
+    required int32  x = 1;
+    required int32  y = 2;
+}
+
+message Outer {
+    required Inner  point   = 1;
+    optional string label   = 2;
+    repeated Inner  extras  = 3;
+}

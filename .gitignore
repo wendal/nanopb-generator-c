@@ -1,0 +1,22 @@
+# CMake build directories
+build/
+cmake-build-*/
+
+# Generated test artifacts
+tests/protos/*.pb
+tests/protos/*.pb.h
+tests/protos/*.pb.c
+tests/protos/py_out/
+tests/compare_*/
+
+# Editor / OS
+.vscode/
+.idea/
+*.user
+Thumbs.db
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo

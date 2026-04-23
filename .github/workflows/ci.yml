@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    name: Build & Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: pip install nanopb grpcio-tools
+
+      - name: Find nanopb generator path
+        id: nanopb
+        shell: python
+        run: |
+          import nanopb.generator.nanopb_generator as m
+          import os
+          path = os.path.abspath(m.__file__)
+          print(f"Generator path: {path}")
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f"generator={path}\n")
+
+      - name: Configure CMake
+        run: >
+          cmake -B build
+          -DNANOPB_PYTHON_GENERATOR="${{ steps.nanopb.outputs.generator }}"
+          -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Test
+        run: ctest --test-dir build --config Release --output-on-failure
